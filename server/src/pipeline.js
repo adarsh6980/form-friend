@@ -2,6 +2,7 @@
 // Tiered routing per the hackathon brief: Nano for fast classify/extract,
 // Ultra for hard reasoning and reply drafting.
 import { chat, MODELS } from './nebius.js';
+import { currentRules, rulesQueryFor } from './tavily.js';
 
 const DOC_TYPES = [
   'revenue',          // Revenue Commissioners (tax)
@@ -87,8 +88,9 @@ export async function analyze(letterText) {
   const hard = classification.is_hard_case === true;
   const summary = await summarize(letterText, classification, hard);
   const reply = await draftReply(letterText, extracted, classification);
+  const rules = await currentRules(rulesQueryFor(classification, extracted)).catch(() => ({ enabled: false, results: [] }));
   return {
-    classification, extracted, summary, reply,
+    classification, extracted, summary, reply, current_rules: rules,
     meta: {
       totalMs: Date.now() - t0,
       tiering: { classify: MODELS.nano, extract: MODELS.nano, summarize: hard ? 'ultra(hard case)' : 'nano', reply: 'ultra' },
