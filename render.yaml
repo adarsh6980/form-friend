@@ -1,0 +1,14 @@
+# One-click deploy on Render's free tier: single web service serving the
+# Angular build + the analysis API. Free services sleep after 15 min idle.
+services:
+  - type: web
+    name: form-friend
+    runtime: node
+    plan: free
+    buildCommand: cd client && npm ci && npx ng build
+    startCommand: node server/src/index.js
+    envVars:
+      - key: NEBIUS_API_KEY
+        sync: false
+      - key: TAVILY_API_KEY
+        sync: false

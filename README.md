@@ -38,6 +38,15 @@ node src/index.js
 # GET  http://localhost:8080/api/health
 ```
 
+With the client built (`cd client && npm ci && npx ng build`), the same server
+also serves the app at `/` - one process, one URL.
+
+## Deploy
+
+`render.yaml` defines a single free Render web service (Angular build + API).
+Connect the repo on Render, pick "Blueprint", and set `NEBIUS_API_KEY`
+(and optionally `TAVILY_API_KEY`) in the dashboard.
+
 ## Repo layout
 
 - `server/` - the analysis pipeline and API
