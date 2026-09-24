@@ -15,9 +15,11 @@ interface Extracted {
   _meta: { model: string; latencyMs: number }
 }
 interface TextStep { text: string; _meta: { model: string; latencyMs: number } }
+interface RuleResult { title: string; url: string; snippet: string }
 interface AnalyzeResult {
   classification: Classification; extracted: Extracted;
   summary: TextStep; reply: TextStep;
+  current_rules?: { enabled: boolean; results: RuleResult[] };
   meta: { totalMs: number; tiering: Record<string, string> }
 }
 

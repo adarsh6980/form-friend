@@ -75,6 +75,15 @@
         <p class="fine">Form Friend explains letters. It is not legal, tax, or immigration advice.</p>
       </div>
 
+      @if (r.current_rules?.enabled && r.current_rules.results?.length) {
+        <div class="card">
+          <h2>Current rules (live sources)</h2>
+          <ul>@for (cr of r.current_rules.results; track cr.url) {
+            <li><a [href]="cr.url" target="_blank" rel="noopener">{{ cr.title }}</a><br><span class="fine">{{ cr.snippet }}</span></li>
+          }</ul>
+        </div>
+      }
+
       <p class="meta footer-meta">
         Answered in {{ r.meta.totalMs | number:'1.0-0' }} ms -
         classify: {{ shortModel(r.classification._meta.model) }},
