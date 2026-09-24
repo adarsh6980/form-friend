@@ -23,7 +23,7 @@ interface AnalyzeResult {
   meta: { totalMs: number; tiering: Record<string, string> }
 }
 
-const API = 'http://localhost:8080';
+const API = location.hostname === 'localhost' && location.port === '4200' ? 'http://localhost:8080' : '';
 
 @Component({
   selector: 'app-root',
