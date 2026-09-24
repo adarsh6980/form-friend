@@ -1,0 +1,87 @@
+<main class="page">
+  <header class="hero">
+    <h1>Form Friend</h1>
+    <p class="tagline">Ireland's bureaucracy, explained. Paste an official letter - get a plain-language summary, the deadline, and a reply you can send.</p>
+  </header>
+
+  <section class="input-card">
+    <div class="sample-row">
+      <span>Try a sample:</span>
+      @for (s of samples; track s.file) {
+        <button type="button" class="chip" (click)="loadSample(s.file)">{{ s.label }}</button>
+      }
+    </div>
+    <textarea
+      [(ngModel)]="letter"
+      rows="12"
+      placeholder="Paste the full text of the letter here - Revenue, immigration (ISD/INIS), landlord, college..."
+      aria-label="Letter text"></textarea>
+    <div class="actions">
+      <button type="button" class="primary" (click)="analyze()" [disabled]="loading()">
+        {{ loading() ? 'Reading your letter...' : 'Explain this letter' }}
+      </button>
+    </div>
+    @if (error()) {
+      <p class="error" role="alert">{{ error() }}</p>
+    }
+  </section>
+
+  @if (result(); as r) {
+    <section class="results">
+      <div class="card classification">
+        <h2>What this letter is</h2>
+        <p class="doc-type">{{ r.classification.doc_type | titlecase }}</p>
+        <p>From: <strong>{{ r.classification.sender }}</strong></p>
+        <p class="meta">
+          Confidence {{ r.classification.confidence | number:'1.0-2' }}
+          @if (r.classification.is_hard_case) {
+            <span class="hard">Flagged as a hard case - answered with Nemotron Ultra</span>
+          }
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>In plain English</h2>
+        <p class="summary-text">{{ r.summary.text }}</p>
+      </div>
+
+      <div class="card">
+        <h2>Key facts</h2>
+        @if (r.extracted.deadlines.length) {
+          <h3>Deadlines</h3>
+          <ul>@for (d of r.extracted.deadlines; track d.what) {
+            <li><strong>{{ d.date || 'date not stated' }}</strong> - {{ d.what }}</li>
+          }</ul>
+        }
+        @if (r.extracted.amounts.length) {
+          <h3>Amounts</h3>
+          <ul>@for (a of r.extracted.amounts; track a.what) {
+            <li><strong>{{ a.value }}</strong> - {{ a.what }}</li>
+          }</ul>
+        }
+        @if (r.extracted.reference_numbers.length) {
+          <h3>Reference numbers</h3>
+          <ul>@for (ref of r.extracted.reference_numbers; track ref) { <li>{{ ref }}</li> }</ul>
+        }
+        @if (r.extracted.actions_required.length) {
+          <h3>What you must do</h3>
+          <ul>@for (a of r.extracted.actions_required; track a) { <li>{{ a }}</li> }</ul>
+        }
+      </div>
+
+      <div class="card">
+        <h2>A reply you can adapt</h2>
+        <pre class="reply">{{ r.reply.text }}</pre>
+        <p class="fine">Form Friend explains letters. It is not legal, tax, or immigration advice.</p>
+      </div>
+
+      <p class="meta footer-meta">
+        Answered in {{ r.meta.totalMs | number:'1.0-0' }} ms -
+        classify: {{ shortModel(r.classification._meta.model) }},
+        summary: {{ shortModel(r.summary._meta.model) }},
+        reply: {{ shortModel(r.reply._meta.model) }}.
+        Tiered routing on Nebius Token Factory.
+      </p>
+    </section>
+  }
+</main>

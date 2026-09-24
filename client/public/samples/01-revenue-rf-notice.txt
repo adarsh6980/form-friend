@@ -1,0 +1,28 @@
+SYNTHETIC SAMPLE - not a real letter.
+
+Revenue Commissioners
+Collector-General's Division
+Dublin Castle, Dublin 2
+
+Date: 12 September 2026
+Our Ref: CG 8821345 K
+PPSN: 1234567T
+
+Dear Mr Example,
+
+NOTICE OF DEMAND - INCOME TAX BALANCE 2025
+
+Our records show an outstanding balance of EUR 412.80 on your income tax
+account for the year ended 31 December 2025.
+
+Payment must reach this office no later than 9 October 2026. If payment is
+not received by that date, interest at 0.0219% per day will apply and
+enforcement action may follow, including referral to the Sheriff.
+
+You can pay through myAccount at www.ros.ie quoting reference CG 8821345 K.
+
+If you believe this balance is incorrect, contact the Collector-General
+within 21 days of the date of this letter.
+
+Yours faithfully,
+Collector-General
